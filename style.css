@@ -1,0 +1,490 @@
+
+
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0b1220;
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+h2{
+  margin-top:10px;
+  font-size:18px;
+  text-align:center;
+}
+
+#info{
+  font-size:13px;
+  padding:10px;
+  text-align:center;
+}
+
+#grid{
+  display:grid;
+  grid-template-columns:repeat(6, minmax(45px, 1fr));
+  gap:6px;
+  width:92vw;
+  max-width:420px;
+  direction:rtl;
+  touch-action:none;
+}
+
+
+
+.cell{
+  aspect-ratio:1;
+  background:#1e293b;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:10px;
+  text-align:center;
+  padding:2px;
+  user-select:none;
+  transition:0.15s;
+}
+
+.cell.path{
+  background:#38bdf8;
+  color:black;
+}
+
+.cell.start{
+  background:#22c55e;
+  font-weight:bold;
+}
+
+.cell.end{
+  background:#ef4444;
+  font-weight:bold;
+}
+
+/* POPUP BACKDROP */
+.popup{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.7);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+/* HIDE */
+.hidden{
+  display:none;
+}
+
+/* BOX */
+.popup-box{
+  background:#0f172a;
+  padding:25px;
+  border-radius:15px;
+  text-align:center;
+  width:80%;
+  max-width:300px;
+  box-shadow:0 0 20px rgba(56,189,248,0.5);
+  animation:pop 0.3s ease;
+}
+
+.popup-box h1{
+  margin:0;
+  color:#38bdf8;
+  font-size:28px;
+}
+
+.popup-box p{
+  font-size:14px;
+  margin:10px 0 20px;
+}
+
+/* BUTTON */
+.popup-box button{
+  background:#22c55e;
+  border:none;
+  padding:10px 15px;
+  border-radius:8px;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* ANIMASI */
+@keyframes pop{
+  from{transform:scale(0.5); opacity:0;}
+  to{transform:scale(1); opacity:1;}
+}
+
+.cell{
+  transition:0.10s ease;
+}
+
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-0.8px); }
+  50% { transform: translateX(0.8px); }
+  75% { transform: translateX(-0.5px); }
+  100% { transform: translateX(0); }
+}
+
+/* START CELL ANIMATION */
+.cell.start {
+  animation: blink 1.4s infinite, shake 1.2s infinite;
+  background: #22c55e;
+  font-weight: bold;
+  color: black;
+}
+
+.cell.start.clicked {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+
+@keyframes pulseOnce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+
+.cell.start{
+  background:#22c55e;
+  font-weight:bold;
+  color:black;
+  animation: blink 0.8s infinite, shake 0.4s infinite;
+}
+
+.cell.clicked{
+  animation:none !important;
+  transform:none !important;
+  opacity:1 !important;
+}
+
+
+#stickerLayer{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:99999;
+}
+
+.sticker{
+  position:absolute;
+  width:80px;
+  height:80px;
+  background:url("assets/sticker.png.png") center/contain no-repeat;
+  transform:scale(0);
+  animation:stickerPop 0.6s ease forwards;
+  z-index:99999;
+  
+}
+
+@keyframes stickerPop{
+  0%{ transform: scale(0); opacity:0; }
+  50%{ transform: scale(1.4); opacity:1; }
+  100%{ transform: scale(1); opacity:1; }
+}
+
+
+#planetEffects{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:99999;
+}
+
+.planetEffect{
+  position:absolute;
+  left:50%;
+  top:50%;
+
+  width:220px;
+  height:220px;
+
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+
+  animation:orbitSpin 4s linear forwards;
+}
+
+.sunFX{
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+
+  width:90px;
+  height:90px;
+
+  border-radius:50%;
+
+  background:radial-gradient(circle,#ffe066,#ff9500);
+
+  box-shadow:
+    0 0 30px orange,
+    0 0 60px gold;
+
+  z-index:5;
+}
+
+.planetFX{
+  position:absolute;
+
+  width:18px;
+  height:18px;
+
+  border-radius:50%;
+  background:#4da6ff;
+
+  top:50%;
+  left:-9px;
+
+  transform:translateY(-50%);
+
+  animation:planetAppear 0.8s ease;
+}
+
+@keyframes orbitSpin{
+  0%{
+    opacity:1;
+    transform:translate(-50%,-50%) rotate(0deg);
+  }
+
+  80%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+    transform:translate(-50%,-50%) rotate(360deg);
+  }
+}
+
+@keyframes planetAppear{
+  0%{
+    opacity:0;
+    transform:translateY(200px) scale(0);
+  }
+
+  100%{
+    opacity:1;
+    transform:translateY(-50%) scale(1);
+  }
+}
+
+
+.mercury{
+  background:#b5b5b5;
+}
+
+.venus{
+  background:#f5c16c;
+}
+
+.earth{
+  background:#4da6ff;
+  box-shadow:0 0 10px #4da6ff;
+}
+
+.mars{
+  background:#ff6b4a;
+}
+
+.jupiter{
+  background:#d8b07c;
+}
+
+.saturn{
+  background:#f0d890;
+}
+
+.uranus{
+  background:#7ef9ff;
+}
+
+.neptune{
+  background:#436dff;
+}
+
+
+
+.solarBurst{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  font-size:22px;
+  font-weight:bold;
+  color:white;
+  text-align:center;
+
+  animation:burstIn 1s ease forwards;
+  text-shadow:0 0 20px gold, 0 0 40px orange;
+}
+
+@keyframes burstIn{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(0.3);
+  }
+  100%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+}
+
+/* Planet upgrade size realism */
+.jupiter{ width:30px; height:30px; }
+.saturn{ width:28px; height:28px; position:relative; }
+
+.saturn::after{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border:2px solid rgba(255,255,255,0.6);
+  border-radius:50%;
+}
+
+.earth{
+  box-shadow:0 0 12px #4da6ff;
+}
+
+
+/* WRAP */
+#planetEffects{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:99999;
+}
+
+/* MATAHARI */
+.sunFX{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:90px;
+  height:90px;
+  
+  
+  border-radius:50%;
+
+  background:radial-gradient(circle,#ffe066,#ff9500);
+
+  box-shadow:
+    0 0 30px orange,
+    0 0 60px gold;
+}
+
+/* ORBIT */
+.planetEffect{
+  position:absolute;
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+
+  animation:spin linear infinite;
+
+  /* 🔥 GARIS ORBIT */
+  border:1px solid rgba(255,255,255,0.18);
+}
+
+/* PUTAR */
+@keyframes spin{
+  from{
+    transform:translate(-50%,-50%) rotate(0deg);
+  }
+  to{
+    transform:translate(-50%,-50%) rotate(360deg);
+  }
+}
+
+/* PLANET */
+.planetFX{
+  position:absolute;
+  top:50%;
+  left:-10px;
+
+  transform:translateY(-50%);
+  border-radius:50%;
+}
+
+/* MERKURIUS */
+.mercury{
+  width:10px;
+  height:10px;
+  background:#a9a9a9;
+}
+
+/* VENUS */
+.venus{
+  width:14px;
+  height:14px;
+  background:#d9b38c;
+}
+
+/* BUMI */
+.earth{
+  width:16px;
+  height:16px;
+  background:#4da6ff;
+  box-shadow:0 0 10px #4da6ff;
+}
+
+/* MARS */
+.mars{
+  width:13px;
+  height:13px;
+  background:#ff6b4a;
+}
+
+/* JUPITER */
+.jupiter{
+  width:24px;
+  height:24px;
+  background:#d8b07c;
+}
+
+/* SATURNUS */
+.saturn{
+  width:22px;
+  height:22px;
+  background:#f5d487;
+}
+
+/* URANUS */
+.uranus{
+  width:18px;
+  height:18px;
+  background:#7fffd4;
+}
+
+/* NEPTUNUS */
+.neptune{
+  width:18px;
+  height:18px;
+  background:#4169e1;
+}
